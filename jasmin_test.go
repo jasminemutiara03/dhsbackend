@@ -3,47 +3,86 @@ package jasmine
 import (
 	"fmt"
 	"testing"
+	
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-var MongoString string = os.Getenv("MONGOSTRING")
-
-var MongoInfo = atdb.DBInfo{
-	DBString: MongoString,
-	DBName:   "dhs",
-}
-var MongoConn = atdb.MongoConnect(MongoInfo)
 
 func TestInsertRencanaStudi(t *testing.T) {
-	id := 1
-	nama_matkul := "Kewirausahaan"
-	kode_matkul := "TI43304"
-	status := "Diterima"
-	sks := "3"
-	kelas := "2A",
+	rencanastd : Rencanastudi{
+		ID: primitive.NewObjectID(),
+		id: "1",
+		nama_matkul: "Kewirausahaan",
+		kode_matkul: "TI43304",
+		status: "Diterima",
+		sks: "3",
+		kelas: "2A",
+	}
+	insertedID := InsertRencanastudi("dhs", rencanastudi)
+	if insertedID == nil {
+		t.Errorf("Error inserting data into rencanastudi collection")
+	}
 }
-	hasil := InsertRencanaStudi(mongoConn, ID, nama_matkul, kode_matkul, status, sks, kelas)
-	fmt.Println(hasil),
 
-func TestGetRencanaStudiFromStatus(t *testing.T) {
-		stats := "Diterima"
-		nama_matkul := GetRencanaStudiFromStatus(stats, MongoConn, "rencanastudi")
-		fmt.Println(nama_matkul)
+func TestInsertNilai(t *testing.T) {
+	nil := Nilai{
+		ID: primitive.NewObjectID(),
+		id: "1",
+		nama_matkul: "Network Programming",
+		kode_matkul: "TI42253",
+		sks: "3",
+		grade: "A",	
+	}
+	insertedID := InsertNilai("dhs", nilai)
+	if insertedID == nil {
+		t.Errorf("Error inserting data into nilai collection")
+	}
 }
-func TestGetMataKuliahFromSks(t *testing.T) {
-	Sks := "3"
-	hasil := GetMataKuliahFromSks(sks, MongoConn, "matakuliah")
-	fmt.Println(hasil)
+
+func TestInsertMatakuliah(t *testing.T) {
+	matkul := matakuliah{
+		ID: primitive.NewObjectID(),
+		id: "1",
+		nama_matkul: "Network Programming",
+		kode_matkul: "TI42253",
+		nama_dosen: "M. Yusril Helmi",
+		sks: "3",
+		gambar: "images/network.png",	
+	}
+	insertedID := InsertMatakuliah("dhs", matakuliah)
+	if insertedID == nil {
+		t.Errorf("Error inserting data into matakuliah collection")
+	}
 }
-func TestGetDataAllbyStats(t *testing.T) {
-	stats := "Diterima"
-	data := GetDataAllbyStats(stats, MongoConn, "rencanastudi")
-	fmt.Println(data)
+
+func TestInsertTranskrip(t *testing.T) {
+	Transkrip := transkrip{
+		ID: primitive.NewObjectID(),
+		id: "1",
+		nama_matkul: "Algoritma dan Struktur Data I",
+		kode_matkul: "TI41061",
+		sks: "3",
+		grade: "C",
+	}
+	insertedID := InsertTranskrip("dhs", transkrip)
+	if insertedID == nil {
+		t.Errorf("Error inserting data into Transkrip collection")
+	}
 }
-func TestInsertMataKuliah(t *testing.T)
-	id := "1"
-	nama_matkul := "Network Programming"
-	kode_matkul := "TI42253"
-	nama_dosen := "M. Yusril Helmi"
-	sks := "3"
-	gambar := "images/network.png"
-	hasil := InsertMataKuliah(id, nama_matkul, kode_matkul, nama_dosen, sks, gsmbar, MongoConn, "matakuliah")
-	fmt.Println(hasil)
+
+func TestInsertUsers(t *testing.T) {
+	usr := users{
+		ID: primitive.NewObjectID(),
+		id: "1",
+		nama: "Jasmine Mutiara Bintang",
+		npm: "1214012",
+		program: "Reguler (REG)",
+		program_studi: "D4 Teknik Informatika",
+		tahun_akademik: "2021",	
+		kelas: "2A",	
+		dosen_wali: "Muhammad Yusril Helmi Setywan, S.Kom,. M.Kom",	
+	}
+	insertedID := InsertMatakuliah("dhs", users)
+	if insertedID == nil {
+		t.Errorf("Error inserting data into Users collection")
+		
+}

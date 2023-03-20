@@ -2,64 +2,55 @@ package jasmine
 
 import (
 	"context"
-	"crypto/des"
 	"fmt"
+	"os"
 
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func InsertOneDoc(db *mongo.Database, collection string, doc interface{}) (insertedID interface{}) {
-	insertResult, err := db.Collection(collection).InsertOne(context.TODO(), doc)
+var MongoString string = os.Getenv("MONGOSTRING")
+
+func MongoConnect(dbname string) (db *mongo.Database) {
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(MongoString))
+	if err != nil {
+		fmt.Printf("MongoConnect: %v\n", err)
+	}
+	return client.Database(dbname)
+}
+
+func InsertRencanastudi(db string, rencanastudi RencanaStudi) (insertedID interface{}) {
+	insertResult, err := MongoConnect(db).Collection("rencanastudi").InsertOne(context.TODO(), rencanastudi)
 	if err != nil {
 		fmt.Printf("InsertOneDoc: %v\n", err)
 	}
 	return insertResult.InsertedID
 }
-
-func InsertRencana_Studi(db *mongo.Database, nama_matakuliah string, status string) (InsertedID interface{}) {
-	var rencanastudi Rencanastudi
-	rencanastudi.Status = status
-	return InsertOneDoc(db, "rencanastudi", rencanastudi)
-}
-func InsertMataKuliah(MataKuliah string, nama_matkul string, kode_matkul string, nama_dosen string, sks string,  gambar string db *mongo.Database, col string) (InsertedID interface{}) {
-	MataKuliah := new(MataKuliah)
-	MataKuliah.Id = MataKuliah
-	MataKuliah.Nama_matkul = nama_matkul
-	MataKuliah.Kode_matkul = kode_matkul
-	MataKuliah.Nama_dosen = nama_dosen
-	MataKuliah.Sks = sks
-	MataKuliah.Gambar = gambar,
-	return InsertOneDoc(db, col, MataKuliah)
-}
-func InsertNilai(nilai string, nama_matkul string, kode_matkul string, nama_dosen string, sks string,  gambar string db *mongo.Database, col string) (InsertedID interface{}) {
-	Nilai := new(nilai)
-	Nilai.Id = mata
-	Nilai.Nama_matkul = nama_matkul
-	Nilai.Kode_matkul = kode_matkul
-	Nilai.Sks = sks
-	Nilai.Grade = grade,
-	return InsertOneDoc(db, col, nilai)
-}
-
-func GetRencanaStudiromStatus(status string, db *mongo.Database, col string) (data RencanaStudi) {
-	filter := bson.M{"status": status}
+func InsertNilai(db string, nilai Nilai) (insertedID interface{}) {
+	insertResult, err := MongoConnect(db).Collection("nilai").InsertOne(context.TODO(), nilai)
 	if err != nil {
-		fmt.Printf("getRencanaStudiFromStatus: %v\n", err)
+		fmt.Printf("InsertOneDoc: %v\n", err)
 	}
-	return data
+	return insertResult.InsertedID
 }
-
-func GetDataAllbyStats(stats string, db *mongo.Database, col string) (data []RencanaStudi) {
-	user := db.Collection(col)
-	filter := bson.M{"status": stats}
-	cursor, err := user.Find(context.TODO(), filter)
+func InsertMatakuliah(db string, matakuliah MataKuliah) (insertedID interface{}) {
+	insertResult, err := MongoConnect(db).Collection("matakuliah").InsertOne(context.TODO(), matakuliah)
 	if err != nil {
-		fmt.Println("GetALLData :", err)
+		fmt.Printf("InsertOneDoc: %v\n", err)
 	}
-	err = cursor.All(context.TODO(), &data)
+	return insertResult.InsertedID
+}
+func InsertTranskrip(db string, transkrip Transkrip) (insertedID interface{}) {
+	insertResult, err := MongoConnect(db).Collection("transkrip").InsertOne(context.TODO(), transkrip)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("InsertOneDoc: %v\n", err)
 	}
-	return
+	return insertResult.InsertedID
+}
+func InsertUsers(db string, users Users) (insertedID interface{}) {
+	insertResult, err := MongoConnect(db).Collection("users").InsertOne(context.TODO(), users)
+	if err != nil {
+		fmt.Printf("InsertOneDoc: %v\n", err)
+	}
+	return insertResult.InsertedID
 }

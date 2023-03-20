@@ -1,8 +1,8 @@
-module github.com/jasminemutiara03/ws/backend
+module github.com/jasminemutiara03/dhsbackend
 
 go 1.19
 
-require go.mongodb.org/mongo-driver v1.11.2
+require go.mongodb.org/mongo-driver v1.11.3
 
 require (
 	github.com/golang/snappy v0.0.1 // indirect
