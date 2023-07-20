@@ -35,6 +35,7 @@ type Transkrip struct {
 	Sks         string             `bson:"sks,omitempty" json:"sks,omitempty"`
 	Grade       string             `bson:"grade,omitempty" json:"grade,omitempty"`
 }
+
 type Userdhs struct {
 	ID             primitive.ObjectID `bson:"_id,omitempty" json:"_id,omitempty"`
 	Nama           string             `bson:"nama,omitempty" json:"nama,omitempty"`
